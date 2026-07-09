@@ -83,8 +83,12 @@
   .contact p { color: var(--muted); font-size: 15px; max-width: 560px; }
   .contact a.mail { color: var(--accent); text-decoration: none; }
   footer { border-top: 1px dashed var(--border); padding: 24px 0 0; color: var(--muted); font-size: 12px; text-align: center; }
-  footer button { background: none; border: none; color: var(--border); cursor: pointer; font-family: inherit; font-size: 12px; }
-  footer button:hover { color: var(--accent); }
+  footer button {
+    background: none; border: 1px solid var(--border); border-radius: 6px;
+    color: var(--muted); cursor: pointer; font-family: inherit; font-size: 12px;
+    padding: 3px 12px; margin-left: 6px;
+  }
+  footer button:hover { color: var(--accent); border-color: var(--accent); }
 
   /* ---------- Admin panel ---------- */
   #adminPanel {
@@ -210,7 +214,6 @@ function render() {
 
   document.getElementById("page").innerHTML = `
     <div class="hero">
-      <div class="greet">$ whoami</div>
       <h1>${esc(d.name)}<span class="cursor"></span></h1>
       <div class="role">${esc(d.role)}</div>
       <p class="tag">${esc(d.tagline)}</p>
@@ -225,7 +228,7 @@ function render() {
     <section class="contact"><h2>contact</h2>
       <p>Open to interesting fintech and market-data problems. Reach me at <a class="mail" href="mailto:${esc(d.email)}">${esc(d.email)}</a>.</p>
     </section>
-    <footer>© ${new Date().getFullYear()} ${esc(d.name)} — <button onclick="openAdmin()">admin</button></footer>`;
+    <footer>© ${new Date().getFullYear()} ${esc(d.name)} <button onclick="openAdmin()">⚙ admin</button></footer>`;
   document.title = d.name + " — Bio";
 }
 
@@ -306,6 +309,8 @@ function exportHtml() {
 }
 
 render();
+if (location.hash === "#admin") openAdmin();
+window.addEventListener("hashchange", () => { if (location.hash === "#admin") openAdmin(); });
 </script>
 </body>
 </html>
