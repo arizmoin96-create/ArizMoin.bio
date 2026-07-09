@@ -169,23 +169,27 @@ const DEFAULT_DATA = {
     { icon:"📡", name:"corporate-pulse", url:"", desc:"Real-time NSE/BSE corporate announcements dashboard with AI summaries and live stock quotes.", stack:"Flask · Python · NSE/BSE APIs" },
     { icon:"⚡", name:"Nifty & Bank nifty Option scalper", url:"", desc:"EMA 9/21 scalping system for Nifty/BankNifty with Dhan broker integration, paper/live modes, and automated risk management.", stack:"Python · Dhan API · Algo Trading" }
   ],
-  experience: [
-    { dates:"Jan 2023 — Present", title:"Job Title Here", org:"Company Name · City", desc:"One or two lines about what you do in this role and your biggest impact." },
-    { dates:"Jun 2020 — Dec 2022", title:"Previous Job Title", org:"Previous Company · City", desc:"Brief description of responsibilities and achievements." }
-  ]
+  experience: []
 };
 
 const LS_KEY = "bio_data_v1";
 let DATA = loadData();
 
+function stripPlaceholders(d) {
+  if (Array.isArray(d.experience)) {
+    d.experience = d.experience.filter(e => !["Job Title Here","Previous Job Title"].includes(e.title));
+  }
+  return d;
+}
+
 function loadData() {
   try {
     const ls = localStorage.getItem(LS_KEY);
-    if (ls) return { ...DEFAULT_DATA, ...JSON.parse(ls) };
+    if (ls) return stripPlaceholders({ ...DEFAULT_DATA, ...JSON.parse(ls) });
   } catch(e) {}
   try {
     const baked = JSON.parse(document.getElementById("savedData").textContent);
-    if (baked) return { ...DEFAULT_DATA, ...baked };
+    if (baked) return stripPlaceholders({ ...DEFAULT_DATA, ...baked });
   } catch(e) {}
   return JSON.parse(JSON.stringify(DEFAULT_DATA));
 }
@@ -229,7 +233,7 @@ function render() {
         <a class="btn" href="${esc(fixUrl(d.linkedin))}" target="_blank" rel="noopener">LinkedIn</a>
       </div>
     </div>
-    <section><h2>experience</h2><div class="timeline">${exp}</div></section>
+    ${d.experience.length ? `<section><h2>experience</h2><div class="timeline">${exp}</div></section>` : ""}
     <section><h2>projects</h2><div class="grid">${projects}</div></section>
     <section><h2>skills</h2><div class="skills">${skills}</div></section>
     <section class="contact"><h2>contact</h2>
