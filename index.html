@@ -133,6 +133,7 @@
   <div class="field"><label>Role / headline</label><input id="f_role"></div>
   <div class="field"><label>Tagline (about)</label><textarea id="f_tagline"></textarea></div>
   <div class="field"><label>Email</label><input id="f_email"></div>
+  <div class="field"><label>WhatsApp number (with country code)</label><input id="f_whatsapp"></div>
   <div class="field"><label>LinkedIn URL</label><input id="f_linkedin"></div>
 
   <h3>projects</h3>
@@ -161,6 +162,7 @@ const DEFAULT_DATA = {
   role: "Building Intelligent Tools for Finance & Investing",
   tagline: "Real-time trading dashboards, corporate announcement trackers, and broker-integrated algo systems. Small, fast web apps that turn raw market data into decisions.",
   email: "arizmoin96@gmail.com",
+  whatsapp: "+918800336192",
   linkedin: "https://www.linkedin.com/in/ariz-moin-66560789",
   skills: ["Python","Flask","JavaScript","Next.js","REST APIs","Market Data (NSE/BSE)","Algo Trading","Git & CI/CD"],
   projects: [
@@ -179,11 +181,11 @@ let DATA = loadData();
 function loadData() {
   try {
     const ls = localStorage.getItem(LS_KEY);
-    if (ls) return JSON.parse(ls);
+    if (ls) return { ...DEFAULT_DATA, ...JSON.parse(ls) };
   } catch(e) {}
   try {
     const baked = JSON.parse(document.getElementById("savedData").textContent);
-    if (baked) return baked;
+    if (baked) return { ...DEFAULT_DATA, ...baked };
   } catch(e) {}
   return JSON.parse(JSON.stringify(DEFAULT_DATA));
 }
@@ -223,7 +225,7 @@ function render() {
       <div class="role">${esc(d.role)}</div>
       <p class="tag">${esc(d.tagline)}</p>
       <div class="cta">
-        <a class="btn solid" href="mailto:${esc(d.email)}">Get in touch</a>
+        <a class="btn solid" href="https://wa.me/${esc(String(d.whatsapp || "").replace(/\D/g, ""))}" target="_blank" rel="noopener">Get in touch</a>
         <a class="btn" href="${esc(fixUrl(d.linkedin))}" target="_blank" rel="noopener">LinkedIn</a>
       </div>
     </div>
@@ -251,7 +253,7 @@ document.getElementById("overlay").addEventListener("click", closeAdmin);
 
 function fillForms() {
   f_name.value = DATA.name; f_role.value = DATA.role; f_tagline.value = DATA.tagline;
-  f_email.value = DATA.email; f_linkedin.value = DATA.linkedin;
+  f_email.value = DATA.email; f_whatsapp.value = DATA.whatsapp || ""; f_linkedin.value = DATA.linkedin;
   f_skills.value = DATA.skills.join(", ");
   renderProjForms(); renderExpForms();
 }
@@ -285,7 +287,7 @@ function delExp(i) { DATA.experience.splice(i,1); renderExpForms(); }
 
 function saveAll() {
   DATA.name = f_name.value; DATA.role = f_role.value; DATA.tagline = f_tagline.value;
-  DATA.email = f_email.value; DATA.linkedin = f_linkedin.value;
+  DATA.email = f_email.value; DATA.whatsapp = f_whatsapp.value; DATA.linkedin = f_linkedin.value;
   DATA.skills = f_skills.value.split(",").map(s => s.trim()).filter(Boolean);
   localStorage.setItem(LS_KEY, JSON.stringify(DATA));
   render(); closeAdmin();
