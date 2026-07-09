@@ -160,7 +160,7 @@
 const DEFAULT_DATA = {
   name: "ARIZ MOIN",
   role: "Building Intelligent Tools for Finance & Investing",
-  tagline: "Real-time trading dashboards, corporate announcement trackers, and broker-integrated algo systems. Small, fast web apps that turn raw market data into decisions.",
+  tagline: "Building AI-assisted financial tools that simplify market analysis—real-time trading dashboards, NSE & BSE corporate announcement trackers, and broker-integrated algorithmic trading platforms that turn complex market data into confident decisions.",
   email: "arizmoin96@gmail.com",
   whatsapp: "+918800336192",
   linkedin: "https://www.linkedin.com/in/ariz-moin-66560789",
@@ -183,6 +183,9 @@ function stripPlaceholders(d) {
     d.projects.forEach(p => {
       if (p.name === "corporate-pulse" && !p.url) p.url = "https://corporate-pulse.onrender.com";
     });
+  }
+  if (d.tagline && d.tagline.startsWith("Real-time trading dashboards, corporate announcement trackers")) {
+    d.tagline = DEFAULT_DATA.tagline;
   }
   return d;
 }
