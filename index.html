@@ -167,7 +167,7 @@ const DEFAULT_DATA = {
   skills: ["Python","Flask","JavaScript","Next.js","REST APIs","Market Data (NSE/BSE)","Algo Trading","Git & CI/CD"],
   projects: [
     { icon:"📡", name:"corporate-pulse", url:"https://corporate-pulse.onrender.com", desc:"Real-time NSE/BSE corporate announcements dashboard with AI summaries and live stock quotes.", stack:"Flask · Python · NSE/BSE APIs" },
-    { icon:"⚡", name:"Nifty & Bank nifty Option scalper", url:"", desc:"EMA 9/21 scalping system for Nifty/BankNifty with Dhan broker integration, paper/live modes, and automated risk management.", stack:"Python · Dhan API · Algo Trading" }
+    { icon:"⚡", name:"Nifty & Bank nifty Option scalper", url:"https://claude.ai/code/artifact/c2449ea3-d05b-4989-881a-c867fa610839", desc:"EMA 9/21 scalping system for Nifty/BankNifty with Dhan broker integration, paper/live modes, and automated risk management.", stack:"Python · Dhan API · Algo Trading" }
   ],
   experience: []
 };
@@ -182,6 +182,7 @@ function stripPlaceholders(d) {
   if (Array.isArray(d.projects)) {
     d.projects.forEach(p => {
       if (p.name === "corporate-pulse" && !p.url) p.url = "https://corporate-pulse.onrender.com";
+      if (p.name === "Nifty & Bank nifty Option scalper" && !p.url) p.url = "https://claude.ai/code/artifact/c2449ea3-d05b-4989-881a-c867fa610839";
     });
   }
   if (d.tagline && d.tagline.startsWith("Real-time trading dashboards, corporate announcement trackers")) {
