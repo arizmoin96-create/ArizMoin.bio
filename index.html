@@ -192,10 +192,17 @@ function esc(s) {
   return String(s ?? "").replace(/[&<>"']/g, c => ({ "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;" }[c]));
 }
 
+function fixUrl(u) {
+  u = String(u ?? "").trim();
+  if (!u || u === "#") return u;
+  if (!/^https?:\/\//i.test(u)) u = "https://" + u;
+  return u;
+}
+
 function render() {
   const d = DATA;
   const projects = d.projects.map(p => `
-    <a class="proj" href="${esc(p.url || '#')}" ${p.url ? 'target="_blank" rel="noopener"' : ''}>
+    <a class="proj" href="${esc(fixUrl(p.url) || '#')}" ${p.url ? 'target="_blank" rel="noopener"' : ''}>
       <div class="folder">${esc(p.icon || "📁")}</div>
       <h3>${esc(p.name)} <span>↗</span></h3>
       <p>${esc(p.desc)}</p>
@@ -217,7 +224,7 @@ function render() {
       <p class="tag">${esc(d.tagline)}</p>
       <div class="cta">
         <a class="btn solid" href="mailto:${esc(d.email)}">Get in touch</a>
-        <a class="btn" href="${esc(d.linkedin)}" target="_blank" rel="noopener">LinkedIn</a>
+        <a class="btn" href="${esc(fixUrl(d.linkedin))}" target="_blank" rel="noopener">LinkedIn</a>
       </div>
     </div>
     <section><h2>experience</h2><div class="timeline">${exp}</div></section>
