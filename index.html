@@ -166,7 +166,7 @@ const DEFAULT_DATA = {
   linkedin: "https://www.linkedin.com/in/ariz-moin-66560789",
   skills: ["Python","Flask","JavaScript","Next.js","REST APIs","Market Data (NSE/BSE)","Algo Trading","Git & CI/CD"],
   projects: [
-    { icon:"📡", name:"corporate-pulse", url:"", desc:"Real-time NSE/BSE corporate announcements dashboard with AI summaries and live stock quotes.", stack:"Flask · Python · NSE/BSE APIs" },
+    { icon:"📡", name:"corporate-pulse", url:"https://corporate-pulse.onrender.com", desc:"Real-time NSE/BSE corporate announcements dashboard with AI summaries and live stock quotes.", stack:"Flask · Python · NSE/BSE APIs" },
     { icon:"⚡", name:"Nifty & Bank nifty Option scalper", url:"", desc:"EMA 9/21 scalping system for Nifty/BankNifty with Dhan broker integration, paper/live modes, and automated risk management.", stack:"Python · Dhan API · Algo Trading" }
   ],
   experience: []
@@ -178,6 +178,11 @@ let DATA = loadData();
 function stripPlaceholders(d) {
   if (Array.isArray(d.experience)) {
     d.experience = d.experience.filter(e => !["Job Title Here","Previous Job Title"].includes(e.title));
+  }
+  if (Array.isArray(d.projects)) {
+    d.projects.forEach(p => {
+      if (p.name === "corporate-pulse" && !p.url) p.url = "https://corporate-pulse.onrender.com";
+    });
   }
   return d;
 }
@@ -234,7 +239,7 @@ function render() {
       </div>
     </div>
     ${d.experience.length ? `<section><h2>experience</h2><div class="timeline">${exp}</div></section>` : ""}
-    <section><h2>projects</h2><div class="grid">${projects}</div></section>
+    <section><h2>live projects</h2><div class="grid">${projects}</div></section>
     <section><h2>skills</h2><div class="skills">${skills}</div></section>
     <section class="contact"><h2>contact</h2>
       <p>Open to interesting fintech and market-data problems. Reach me at <a class="mail" href="mailto:${esc(d.email)}">${esc(d.email)}</a>.</p>
